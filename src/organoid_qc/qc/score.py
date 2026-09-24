@@ -124,9 +124,11 @@ def score(organoid: ad.AnnData, reference: ad.AnnData, cfg: dict) -> dict:
         "unmapped_fraction": bool(
             unmapped_cells / n_cells <= thresh["max_unmapped_fraction"]
         ),
+        # No assessable markers => fail, not vacuous pass: an empty panel
+        # means the QC question could not be asked at all.
         "marker_detection": bool(
-            not detected_vals
-            or np.mean(detected_vals) >= thresh["min_marker_detection"]
+            detected_vals
+            and np.mean(detected_vals) >= thresh["min_marker_detection"]
         ),
     }
     return {
