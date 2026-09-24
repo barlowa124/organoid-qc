@@ -1,7 +1,7 @@
-"""Validate the OT-2 protocol in software via opentrons.simulate.
+"""Validate the Flex protocol in software via opentrons.simulate.
 
 `run_simulation` executes the protocol exactly as the robot's software
-would (same Protocol API engine), returning the full run log — every
+would (same Protocol API engine), returning the full run log, every
 aspirate/dispense is an inspectable step, so volume accounting can be
 asserted in tests.
 """

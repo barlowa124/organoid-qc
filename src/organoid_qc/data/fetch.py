@@ -5,7 +5,7 @@ atlas) and a reference slice of human intestinal tissue epithelial cells,
 writes both as .h5ad under data/raw/, and prints the obs paths for
 config.dataset.organoid_h5ad / reference_h5ad.
 
-Not part of the default DAG — run once to stage real inputs:
+Not part of the default DAG. Run once to stage real inputs:
 
     .venv/bin/python -m organoid_qc.data.fetch
 

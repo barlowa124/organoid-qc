@@ -11,7 +11,7 @@ The organoid culture:
   - contains one aberrant cluster with its own private program that
     correlates with no reference type.
 
-This is a test fixture with known ground truth — never present its scores
+This is a test fixture with known ground truth. Never present its scores
 as biological findings.
 """
 

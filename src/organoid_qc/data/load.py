@@ -1,8 +1,8 @@
 """Load or generate the organoid + reference pair.
 
 Modes (config.dataset.mode):
-  demo  — deterministic synthetic data with known ground truth
-  h5ad  — user-supplied annotated AnnData files (e.g. CELLxGENE Census
+  demo  - deterministic synthetic data with known ground truth
+  h5ad  - user-supplied annotated AnnData files (e.g. CELLxGENE Census
           exports); paths in config.dataset.organoid_h5ad / reference_h5ad
 
 Writes both to data/processed/*.h5ad so downstream stages are mode-agnostic.

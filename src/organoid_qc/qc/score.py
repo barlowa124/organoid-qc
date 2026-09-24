@@ -36,7 +36,7 @@ def _mean_profile(adata: ad.AnnData, mask, genes) -> np.ndarray:
     if len(missing):
         raise ValueError(
             f"{len(missing)} genes absent from var_names "
-            f"(e.g. {list(missing[:3])}) — run preprocess to align gene spaces"
+            f"(e.g. {list(missing[:3])}), run preprocess to align gene spaces"
         )
     return np.asarray(X[:, idx]).mean(axis=0)
 

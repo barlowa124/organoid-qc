@@ -31,7 +31,7 @@ CELLxGENE/GEO access notes).
 
 ## Demo result
 
-The demo culture intentionally fails QC, which is the point. The pipeline
+The demo culture intentionally fails QC. The pipeline
 recovers the planted failure modes: `celltype_coverage` 0.667 vs the 0.75
 threshold (stem-like population missing), `unmapped_fraction` 0.25 (one
 aberrant cluster, correlation -0.02 to every reference centroid), stem
@@ -54,7 +54,7 @@ enterocyte / goblet cell / stem cell:
   to the tissue reference, consistent with immature organoid stem cells
 - `qc_pass: true`
 
-Interpretation stays conservative: this says the atlas sample's
+Interpretation stays conservative. This says the atlas sample's
 transcriptome composition tracks intestinal epithelium, not that the
 organoids function as intestine. See `docs/evaluation.md`.
 

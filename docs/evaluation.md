@@ -7,26 +7,26 @@ reference centroid, mapped/unmapped status.
 
 Aggregate:
 
-- **celltype_coverage** — fraction of reference types hit by ≥1 mapped
+- **celltype_coverage**: fraction of reference types hit by ≥1 mapped
   cluster. Low coverage = missing populations (e.g. the culture never
   produces goblet cells).
-- **unmapped_fraction** — fraction of organoid cells in clusters matching
+- **unmapped_fraction**: fraction of organoid cells in clusters matching
   no reference type above `mapping_correlation_min`. Captures aberrant or
   off-target differentiation.
-- **per_type_marker_detection** — fraction of each type's expected marker
+- **per_type_marker_detection**: fraction of each type's expected marker
   panel detected in its best-matching organoid cluster. Catches immature
   phenotypes that map by profile but lack markers.
-- **qc_flags / qc_pass** — each signal vs its config threshold; the run
+- **qc_flags / qc_pass**: each signal vs its config threshold; the run
   passes only if all pass.
 
 ## What a pass does NOT mean
 
-- Not functional equivalence — transcriptome correlation says nothing about
+- Not functional equivalence. Transcriptome correlation says nothing about
   barrier function, secretion, morphology, or response to stimulus.
-- Not batch-comparable across datasets — scores depend on the reference
+- Not batch-comparable across datasets. Scores depend on the reference
   composition, sequencing depth, and preprocessing choices. Compare
   cultures scored against the *same* reference with the *same* config.
-- Not a release criterion — this is a research QC signal for flagging
+- Not a release criterion. This is a research QC signal for flagging
   cultures worth investigating, not a gate.
 
 ## Known failure modes
