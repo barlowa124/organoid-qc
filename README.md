@@ -4,12 +4,12 @@ Transcriptomic fidelity scoring for organoid cultures: how faithfully does a
 scRNA-seq profile of an organoid reproduce the cell-type composition and
 marker expression of the human tissue it is meant to model?
 
-Standard organoid QC is manual and qualitative — a few marker stains, a
+Standard organoid QC is manual and qualitative, a few marker stains and a
 microscopy read. This pipeline makes it quantitative and reproducible:
 cluster the organoid, correlate each cluster against reference tissue
-cell-type centroids, and report **per-population** fidelity signals —
-coverage (missing cell types), unmapped fraction (aberrant populations), and
-marker detection (immature phenotypes) — plus QC flags against config'd
+cell-type centroids, and report **per-population** fidelity signals
+(coverage for missing cell types, unmapped fraction for aberrant populations, and
+marker detection for immature phenotypes) plus QC flags against config'd
 thresholds.
 
 ## Quickstart
@@ -22,16 +22,16 @@ uv venv --python 3.11 && uv pip install -e ".[dev]"
 Runs the deterministic **demo dataset** (synthetic organoid with known
 ground truth: one missing cell type, one aberrant population) and writes:
 
-- `results/fidelity.json` — per-cluster mappings + aggregate scores + flags
-- `results/umap.png` — joint embedding, organoid cells colored mapped/unmapped
+- `results/fidelity.json` - per-cluster mappings, aggregate scores, and flags
+- `results/umap.png` - joint embedding, organoid cells colored mapped/unmapped
 
 To score real data, set `dataset.mode: h5ad` in `config/config.yaml` and
-point it at annotated `.h5ad` files — see `docs/data-sources.md` for
-CELLxGENE/GEO access notes.
+point it at annotated `.h5ad` files (see `docs/data-sources.md` for
+CELLxGENE/GEO access notes).
 
 ## Demo result
 
-The demo culture intentionally fails QC, which is the point — the pipeline
+The demo culture intentionally fails QC, which is the point. The pipeline
 recovers the planted failure modes: `celltype_coverage` 0.667 vs the 0.75
 threshold (stem-like population missing), `unmapped_fraction` 0.25 (one
 aberrant cluster, correlation -0.02 to every reference centroid), stem
@@ -44,36 +44,36 @@ marker detection 0.0. `qc_pass: false`.
 dataset) vs 3,000 human small/large-intestinal tissue cells labeled
 enterocyte / goblet cell / stem cell:
 
-- `celltype_coverage` **1.0** — all three reference types hit by ≥1
-  cluster; most clusters map to stem cell (the atlas is
+- `celltype_coverage` **1.0** - all three reference types hit by ≥1
+  cluster. Most clusters map to stem cell (the atlas is
   stem/progenitor-dominated, correlations 0.74–0.84)
-- `unmapped_fraction` **0.075** — a few small clusters match nothing
+- `unmapped_fraction` **0.075** - a few small clusters match nothing
   (best correlation ≤0.23)
-- Marker detection: enterocyte 1.0, goblet 1.0, stem cell 0.667 —
-  one of three stem markers (LGR5/OLFM4/SMOC2) under-expressed relative
+- Marker detection: enterocyte 1.0, goblet 1.0, stem cell 0.667.
+  One of three stem markers (LGR5/OLFM4/SMOC2) under-expressed relative
   to the tissue reference, consistent with immature organoid stem cells
 - `qc_pass: true`
 
 Interpretation stays conservative: this says the atlas sample's
-transcriptome composition tracks intestinal epithelium — not that the
+transcriptome composition tracks intestinal epithelium, not that the
 organoids function as intestine. See `docs/evaluation.md`.
 
 ## Interpretation
 
 Fidelity ≠ function. A passing score means the transcriptome composition
-matches the reference panel; it says nothing about barrier function,
+matches the reference panel. It says nothing about barrier function,
 secretion, or drug response. See `docs/evaluation.md` for the full list of
 what a pass does not mean and known failure modes.
 
 ## Lab automation (Opentrons Flex)
 
-`src/organoid_qc/automation/` contains a real Opentrons Flex protocol —
+`src/organoid_qc/automation/` contains a real Opentrons Flex protocol.
 `flex_organoid_dosing.py` prepares an 8-point, 3-fold compound serial
 dilution in a deep-well block and doses an organoid 96-well plate in
 triplicate with vehicle-only control columns. `simulate.py` runs it
 through the official Protocol Engine simulator, producing an audited
 liquid-handling run log (278 steps: every aspirate/dispense/blow-out).
-The same file runs on the physical robot; the tests assert step counts,
+The same file runs on the physical robot. The tests assert step counts,
 dose volumes, well mapping, and that control columns stay untouched.
 Requires `pip install -e .[automation]`.
 
