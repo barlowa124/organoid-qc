@@ -85,8 +85,10 @@ def make_demo(cfg: dict) -> tuple[ad.AnnData, ad.AnnData]:
     # an aberrant population on its own private program.
     n_org = demo["n_organoid_cells"]
     present, missing = cell_types[:-1], cell_types[-1]
+    # 75% of organoid cells are typed; the remainder is the aberrant pool
+    typed_fraction = 0.75
     org_counts, org_labels = [], []
-    per_type = int(n_org * 0.75) // len(present)
+    per_type = int(n_org * typed_fraction) // len(present)
     for ct in present:
         feats = [(g, 25.0) for g in marker_idx[ct]] + [
             (g, 10.0) for g in program_idx[ct]
