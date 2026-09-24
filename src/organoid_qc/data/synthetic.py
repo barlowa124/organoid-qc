@@ -38,7 +38,7 @@ def make_demo(cfg: dict) -> tuple[ad.AnnData, ad.AnnData]:
     demo = cfg["dataset"]["demo"]
     rng = np.random.default_rng(demo["seed"])
     n_genes = demo["n_genes"]
-    marker_sets = cfg["markers"]
+    marker_sets = cfg["dataset"]["demo"]["markers"]
     cell_types = list(marker_sets)
 
     # Layout: per type, 2 named marker genes then a 50-gene program;
@@ -120,4 +120,6 @@ def make_demo(cfg: dict) -> tuple[ad.AnnData, ad.AnnData]:
         var=pd.DataFrame(index=var_names),
     )
     organoid.uns["demo_missing_type"] = missing
+    organoid.uns["markers"] = {k: list(v) for k, v in marker_sets.items()}
+    reference.uns["markers"] = {k: list(v) for k, v in marker_sets.items()}
     return organoid, reference

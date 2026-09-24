@@ -22,11 +22,19 @@ def load(cfg: dict) -> tuple[ad.AnnData, ad.AnnData]:
         from organoid_qc.data.synthetic import make_demo
 
         organoid, reference = make_demo(cfg)
+    elif mode == "fetch":
+        from organoid_qc.data.fetch import fetch
+
+        organoid, reference = fetch(cfg)
     elif mode == "h5ad":
         organoid = ad.read_h5ad(cfg["dataset"]["organoid_h5ad"])
         reference = ad.read_h5ad(cfg["dataset"]["reference_h5ad"])
     else:
         raise ValueError(f"unknown dataset mode: {mode!r}")
+
+    # Carry the active marker panel so scoring is mode-agnostic.
+    organoid.uns.setdefault("markers", dict(cfg["markers"]))
+    reference.uns.setdefault("markers", dict(cfg["markers"]))
 
     ct_col = cfg["dataset"]["obs_columns"]["cell_type"]
     if ct_col not in reference.obs.columns:

@@ -37,6 +37,27 @@ threshold (stem-like population missing), `unmapped_fraction` 0.25 (one
 aberrant cluster, correlation -0.02 to every reference centroid), stem
 marker detection 0.0. `qc_pass: false`.
 
+## Real-data result (`results/fidelity_intestine.json`)
+
+`dataset.mode: fetch` ran the same pipeline on CELLxGENE Census data:
+3,000 cells from the **human intestine organoid cell atlas** (353k-cell
+dataset) vs 3,000 human small/large-intestinal tissue cells labeled
+enterocyte / goblet cell / stem cell:
+
+- `celltype_coverage` **1.0** — all three reference types hit by ≥1
+  cluster; most clusters map to stem cell (the atlas is
+  stem/progenitor-dominated, correlations 0.74–0.84)
+- `unmapped_fraction` **0.075** — a few small clusters match nothing
+  (best correlation ≤0.23)
+- Marker detection: enterocyte 1.0, goblet 1.0, stem cell 0.667 —
+  one of three stem markers (LGR5/OLFM4/SMOC2) under-expressed relative
+  to the tissue reference, consistent with immature organoid stem cells
+- `qc_pass: true`
+
+Interpretation stays conservative: this says the atlas sample's
+transcriptome composition tracks intestinal epithelium — not that the
+organoids function as intestine. See `docs/evaluation.md`.
+
 ## Interpretation
 
 Fidelity ≠ function. A passing score means the transcriptome composition

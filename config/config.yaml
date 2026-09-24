@@ -4,12 +4,16 @@ dataset:
   # "demo" generates a deterministic synthetic organoid + reference.
   # To use real data: set mode: h5ad and provide paths to annotated h5ad
   # files (e.g. exported from CELLxGENE Census or a GEO organoid atlas).
-  mode: demo
+  mode: demo   # demo | h5ad | fetch (fetch pulls CELLxGENE Census, ~25 min)
   demo:
     seed: 0
     n_reference_cells: 900
     n_organoid_cells: 600
     n_genes: 2000
+    markers:  # synthetic gene names used by the demo generator
+      enterocyte: [MARKER_ENTEROCYTE_1, MARKER_ENTEROCYTE_2]
+      goblet: [MARKER_GOBLET_1, MARKER_GOBLET_2]
+      stem: [MARKER_STEM_1, MARKER_STEM_2]
   organoid_h5ad: null   # path; obs must have a cell-type/cluster column
   reference_h5ad: null  # path; obs must have the reference label column
   obs_columns:
@@ -24,13 +28,27 @@ preprocess:
   n_pcs: 30
   leiden_resolution: 1.0
 
-# Marker panel for fidelity scoring. Keys are reference cell types; values
-# are genes expected to mark them. In demo mode the synthetic data is
-# generated with exactly these markers so scores are interpretable.
+# Marker panel for fidelity scoring on real data. Keys must match the
+# reference's cell_type labels. In demo mode the synthetic panel under
+# dataset.demo.markers is used instead (carried in organoid.uns["markers"]).
 markers:
-  enterocyte: [MARKER_ENTEROCYTE_1, MARKER_ENTEROCYTE_2]
-  goblet: [MARKER_GOBLET_1, MARKER_GOBLET_2]
-  stem: [MARKER_STEM_1, MARKER_STEM_2]
+  enterocyte: [VIL1, FABP2, ALPI]
+  goblet cell: [MUC2, TFF3]
+  stem cell: [LGR5, OLFM4, SMOC2]   # census label for intestinal stem cells
+
+# CELLxGENE Census pull for dataset.mode: fetch (see data/fetch.py).
+fetch:
+  census_version: "2025-11-08"
+  seed: 0
+  organoid_dataset_id: "776a1e4a-f141-49bb-9978-d0588a4cee9f"  # human intestine organoid cell atlas
+  organoid_label_col: cell_type
+  n_organoid_cells: 3000
+  n_reference_cells: 3000
+  reference_tissues: ["small intestine", "large intestine"]
+  reference_cell_types:
+    - enterocyte
+    - goblet cell
+    - stem cell
 
 score:
   # A cluster is "mapped" to a cell type when mean Pearson correlation of

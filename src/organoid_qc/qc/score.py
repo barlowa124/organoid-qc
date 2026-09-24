@@ -28,7 +28,7 @@ from scipy import sparse
 
 
 def _mean_profile(adata: ad.AnnData, mask, genes) -> np.ndarray:
-    X = adata.layers["lognorm"][mask]
+    X = adata.layers["lognorm"][np.asarray(mask)]
     if sparse.issparse(X):
         X = X.toarray()
     idx = adata.var_names.get_indexer(genes)
@@ -84,8 +84,9 @@ def score(organoid: ad.AnnData, reference: ad.AnnData, cfg: dict) -> dict:
     # of their reference-type mean in the cluster(s) mapped to that type.
     # Uncovered types score 0.0 (no mapped cluster to detect them in).
     ratio = thresh["marker_expression_ratio"]
+    marker_sets = organoid.uns.get("markers") or cfg["markers"]
     marker_detection = {}
-    for ct, genes in cfg["markers"].items():
+    for ct, genes in marker_sets.items():
         genes = [
             g
             for g in genes
