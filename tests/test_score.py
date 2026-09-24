@@ -84,3 +84,11 @@ def test_missing_reference_type_drops_coverage():
     result = score(org, ref, cfg)
     assert result["aggregate"]["celltype_coverage"] == 1.0
     assert result["reference_types"] == ["typeA"]
+
+
+def test_empty_marker_panel_fails_qc():
+    org, ref, cfg = _toy()
+    cfg["markers"] = {}  # no panel -> QC question cannot be asked
+    result = score(org, ref, cfg)
+    assert result["qc_flags"]["marker_detection"] is False
+    assert result["qc_pass"] is False
