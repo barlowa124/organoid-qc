@@ -65,6 +65,18 @@ matches the reference panel; it says nothing about barrier function,
 secretion, or drug response. See `docs/evaluation.md` for the full list of
 what a pass does not mean and known failure modes.
 
+## Lab automation (Opentrons Flex)
+
+`src/organoid_qc/automation/` contains a real Opentrons Flex protocol —
+`flex_organoid_dosing.py` prepares an 8-point, 3-fold compound serial
+dilution in a deep-well block and doses an organoid 96-well plate in
+triplicate with vehicle-only control columns. `simulate.py` runs it
+through the official Protocol Engine simulator, producing an audited
+liquid-handling run log (278 steps: every aspirate/dispense/blow-out).
+The same file runs on the physical robot; the tests assert step counts,
+dose volumes, well mapping, and that control columns stay untouched.
+Requires `pip install -e .[automation]`.
+
 ## Structure
 
 ```
@@ -76,7 +88,8 @@ src/organoid_qc/
   qc/preprocess.py      filter -> normalize -> HVG -> PCA -> Leiden (shared gene space)
   qc/score.py           centroid correlation, cluster mapping, QC flags
   qc/report.py          joint UMAP + fidelity summary
-tests/                  synthetic-data and scoring tests
+  automation/           Opentrons Flex dosing protocol + simulation validation
+tests/                  synthetic-data, scoring, and automation tests
 docs/                   data sources, evaluation semantics
 ```
 

@@ -21,6 +21,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest", "snakemake>=8"]
+automation = ["opentrons>=9.0"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
