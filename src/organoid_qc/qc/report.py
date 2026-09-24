@@ -12,7 +12,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import scanpy as sc
-import yaml
+from organoid_qc.util import load_config
 
 
 def report(
@@ -98,8 +98,7 @@ def report(
 
 def main() -> None:
     org_path, ref_path, fid_path, out_path = sys.argv[1:5]
-    with open("config/config.yaml") as f:
-        cfg = yaml.safe_load(f)
+    cfg = load_config()
     with open(fid_path) as f:
         fidelity = json.load(f)
     report(

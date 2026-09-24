@@ -23,7 +23,7 @@ import sys
 import anndata as ad
 import numpy as np
 import pandas as pd
-import yaml
+from organoid_qc.util import load_config
 from scipy import sparse
 
 
@@ -32,6 +32,12 @@ def _mean_profile(adata: ad.AnnData, mask, genes) -> np.ndarray:
     if sparse.issparse(X):
         X = X.toarray()
     idx = adata.var_names.get_indexer(genes)
+    missing = np.asarray(genes)[idx < 0]
+    if len(missing):
+        raise ValueError(
+            f"{len(missing)} genes absent from var_names "
+            f"(e.g. {list(missing[:3])}) — run preprocess to align gene spaces"
+        )
     return np.asarray(X[:, idx]).mean(axis=0)
 
 
@@ -146,8 +152,7 @@ def score(organoid: ad.AnnData, reference: ad.AnnData, cfg: dict) -> dict:
 
 def main() -> None:
     org_path, ref_path, out_path = sys.argv[1:4]
-    with open("config/config.yaml") as f:
-        cfg = yaml.safe_load(f)
+    cfg = load_config()
     result = score(ad.read_h5ad(org_path), ad.read_h5ad(ref_path), cfg)
     with open(out_path, "w") as f:
         json.dump(result, f, indent=2)

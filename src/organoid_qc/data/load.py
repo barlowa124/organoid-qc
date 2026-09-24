@@ -13,7 +13,7 @@ from __future__ import annotations
 import sys
 
 import anndata as ad
-import yaml
+from organoid_qc.util import load_config
 
 
 def load(cfg: dict) -> tuple[ad.AnnData, ad.AnnData]:
@@ -46,8 +46,7 @@ def load(cfg: dict) -> tuple[ad.AnnData, ad.AnnData]:
 
 def main() -> None:
     organoid_out, reference_out = sys.argv[1], sys.argv[2]
-    with open("config/config.yaml") as f:
-        cfg = yaml.safe_load(f)
+    cfg = load_config()
     organoid, reference = load(cfg)
     organoid.write_h5ad(organoid_out)
     reference.write_h5ad(reference_out)

@@ -19,7 +19,7 @@ import sys
 
 import anndata as ad
 import cellxgene_census
-import yaml
+from organoid_qc.util import load_config
 
 
 def fetch(cfg: dict) -> tuple[ad.AnnData, ad.AnnData]:
@@ -85,8 +85,7 @@ def fetch(cfg: dict) -> tuple[ad.AnnData, ad.AnnData]:
 def main() -> None:
     org_out = sys.argv[1] if len(sys.argv) > 1 else "data/raw/organoid.h5ad"
     ref_out = sys.argv[2] if len(sys.argv) > 2 else "data/raw/reference.h5ad"
-    with open("config/config.yaml") as f:
-        cfg = yaml.safe_load(f)
+    cfg = load_config()
     organoid, reference = fetch(cfg)
     organoid.write_h5ad(org_out)
     reference.write_h5ad(ref_out)

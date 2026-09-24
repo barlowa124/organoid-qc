@@ -14,7 +14,7 @@ import sys
 
 import anndata as ad
 import scanpy as sc
-import yaml
+from organoid_qc.util import load_config
 
 
 def _basic_qc(adata: ad.AnnData, cfg: dict) -> ad.AnnData:
@@ -65,8 +65,7 @@ def preprocess(organoid: ad.AnnData, reference: ad.AnnData, cfg: dict):
 
 def main() -> None:
     org_in, ref_in, org_out, ref_out = sys.argv[1:5]
-    with open("config/config.yaml") as f:
-        cfg = yaml.safe_load(f)
+    cfg = load_config()
     organoid = ad.read_h5ad(org_in)
     reference = ad.read_h5ad(ref_in)
     organoid, reference = preprocess(organoid, reference, cfg)
