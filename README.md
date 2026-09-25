@@ -80,7 +80,7 @@ Requires `pip install -e .[automation]`.
 ## Structure
 
 ```
-config/config.yaml      markers, thresholds, dataset mode — single source of truth
+config/config.yaml      markers, thresholds, dataset mode, the single source of truth
 workflow/Snakefile      demo_data/load -> preprocess -> score -> report
 src/organoid_qc/
   data/synthetic.py     deterministic synthetic organoid + reference
