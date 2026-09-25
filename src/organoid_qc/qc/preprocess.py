@@ -31,6 +31,10 @@ def preprocess(organoid: ad.AnnData, reference: ad.AnnData, cfg: dict):
 
     # Shared HVG space: intersect on gene names, union HVG flags.
     shared = organoid.var_names.intersection(reference.var_names)
+    if not len(shared):
+        raise ValueError(
+            "organoid and reference share no gene names; nothing to score"
+        )
     organoid = organoid[:, shared].copy()
     reference = reference[:, shared].copy()
     for a in (organoid, reference):
@@ -48,7 +52,7 @@ def preprocess(organoid: ad.AnnData, reference: ad.AnnData, cfg: dict):
         sc.pp.scale(a, max_value=10)
         sc.tl.pca(
             a,
-            n_comps=min(cfg["preprocess"]["n_pcs"], a.n_vars - 1),
+            n_comps=min(cfg["preprocess"]["n_pcs"], a.n_vars - 1, a.n_obs - 1),
             use_highly_variable=True,
         )
         sc.pp.neighbors(a)
