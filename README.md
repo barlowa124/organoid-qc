@@ -41,12 +41,13 @@ marker detection 0.0. `qc_pass: false`.
 
 `dataset.mode: fetch` ran the same pipeline on CELLxGENE Census data:
 3,000 cells from the **human intestine organoid cell atlas** (353k-cell
-dataset) vs 3,000 human small/large-intestinal tissue cells labeled
+dataset) vs 2,979 human small/large-intestinal tissue cells labeled
 enterocyte / goblet cell / stem cell:
 
 - `celltype_coverage` **1.0** - all three reference types hit by ≥1
   cluster. Most clusters map to stem cell (the atlas is
-  stem/progenitor-dominated, correlations 0.74–0.84)
+  stem/progenitor-dominated. Mapped-cluster correlations run
+  0.36-0.86, median ~0.71, strong tail 0.74+)
 - `unmapped_fraction` **0.075** - a few small clusters match nothing
   (best correlation ≤0.23)
 - Marker detection: enterocyte 1.0, goblet 1.0, stem cell 0.667.
