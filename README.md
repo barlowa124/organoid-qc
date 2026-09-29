@@ -1,3 +1,7 @@
+> **This repository has moved.** Active development continues in [barlowa124/bio-qc](https://github.com/barlowa124/bio-qc) under [`organoid_qc/`](https://github.com/barlowa124/bio-qc/tree/main/organoid_qc). This repo is archived and kept for link stability.
+
+---
+
 # organoid-qc
 
 Transcriptomic fidelity scoring for organoid cultures: how faithfully does a
